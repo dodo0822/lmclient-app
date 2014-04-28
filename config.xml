@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.cwf.lmclientx" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>LearnMode</name>
+    <description>
+        A moduled Learn Mode client built with HTML5, CSS3 and JavaScript, which focuses on performance, responsive design to provide good user experience.
+    </description>
+    <author email="dodo0822@hs.ntnu.edu.tw" href="http://ggt.tw/">
+        Chih-Wei Fang
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+</widget>

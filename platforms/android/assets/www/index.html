@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-tw">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>LmClientX</title>
+		<link href="res/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="res/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+		<link href="res/lib/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+		<link href="res/lib/shadowbox/shadowbox.css" rel="stylesheet" type="text/css">
+		<link href="res/css/transition.css" rel="stylesheet" type="text/css">
+		<link href="res/css/style.css" rel="stylesheet" type="text/css">
+		<script data-main="res/js/main" src="res/lib/requirejs/require.js"></script>
+		<script type="text/javascript" src="cordova.js"></script>
+		<script type="text/javascript" src="lm.cordova.js"></script>
+	</head>
+	<body role="document" onload="onLoad()">
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">LmClientX</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">主選單 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Another action</a></li>
+								<li><a href="#" id="share-link">分享貼文</a></li>
+								<li class="divider"></li>
+								<li><a href="#" id="settings-link">設定</a></li>
+								<li class="divider"></li>
+								<li><a href="#" id="about-link">關於</a></li>
+								<li><a href="#" id="logout-link">登出</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a href="#" id="profile-name"></a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+		<div class="container" role="main" id="main">
+			
+		</div>
+		<div id="hidden-box">
+			<div id="login-dialog" class="white-popup zoom-anim-dialog mfp-hide">
+				<form id="login-form" role="form">
+					<fieldset>
+						<legend>
+							請輸入 Flyer 的 MAC 位址：
+						</legend>
+						<div class="form-group">
+							<div class="controls">
+								<input id="mac-address" class="form-control" name="mac-address" type="text" placeholder="MAC Address.." class="input-xlarge">
+							</div>
+						</div>
+						<button type="button" id="login-button" data-loading-text="登入中..." class="btn btn-primary">確定登入</button>
+						<button type="button" id="login-help-button" class="btn btn-warning">使用說明</button>
+					</fieldset>
+				</form>
+			</div>
+			<div id="logout-dialog" class="white-popup zoom-anim-dialog mfp-hide">
+				<p>確定要登出嗎？</p>
+				<button type="button" id="logout-button" data-loading-text="登出中..." class="btn btn-primary">確定登出</button>
+				<button type="button" id="logout-cancel-button" class="btn btn-warning">取消返回</button>
+			</div>
+		</div>
+	</body>
+</html>

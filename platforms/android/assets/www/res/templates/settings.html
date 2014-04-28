@@ -1,0 +1,17 @@
+<div class="white-popup zoom-anim-dialog">
+	<form role="form" id="settings-form">
+		<fieldset>
+			<legend>使用者設定</legend>
+			<div class="form-group">
+				<label for="settings-font">字體：</label>
+				<select id="settings-font">
+					<option value="roboto"<% if(font === 'roboto'){ %> selected<% } %>>Roboto</option>
+					<option value="opensans"<% if(font === 'opensans'){ %> selected<% } %>>Open Sans</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary" id="settings-set-button">儲存設定</button>&nbsp;&nbsp;<button class="btn btn-default" id="settings-cancel-button">取消返回</button>
+			</div>
+		</fieldset>
+	</form>
+</div>

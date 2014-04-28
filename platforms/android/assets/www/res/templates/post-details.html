@@ -1,0 +1,46 @@
+<div class="post transition-all post-highlighted" data-id="<%= id %>" data-category="<%= category %>">
+	<div class="post-content">
+		<div class="post-avatar">
+			<img src="<%= user.avatar %>" />
+		</div>
+		<% if(category == "share"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong></p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!--<button type="button" class="btn btn-primary">評論</button>-->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else if(category == "scrapbook"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong></p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!-- <button type="button" class="btn btn-primary">評論</button> -->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else if(category == "question"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong></p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!-- <button type="button" class="btn btn-primary">評論</button> -->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else { %>
+			<div class="post-main">
+				<p class="bg-danger">不支援的貼文類型，請回報！（category = <%= category %>）</p>
+			</div>
+		<% } %>
+		<% if(image != ""){ %>
+		<div class="post-image">
+			<a class="image-popup" href="<%= image %>">
+				<img src="<%= imageMedium %>" />
+			</a>
+		</div>
+		<% } %>
+	</div>
+</div>

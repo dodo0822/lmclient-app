@@ -1,0 +1,110 @@
+<div class="post post-pointer transition-all" data-related="<%= (related == "") ? id : related %>" data-id="<%= id %>" data-category="<%= category %>">
+	<div class="post-content transition-all">
+		<div class="post-avatar">
+			<img src="<%= user.avatar %>" />
+		</div>
+		<% if(category == "share"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> 分享了一篇貼文。</p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!--<button type="button" class="btn btn-primary">評論</button>-->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else if(category == "comment"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> 回應了 <%= relname %> 的 <span class="post-highlight">貼文</span>。</p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!-- <button type="button" class="btn btn-primary">觀看</button> -->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else if(category == "question"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> 提出了一個問題。</p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!-- <button type="button" class="btn btn-primary">回答</button> -->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else if(category == "answer"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> 回答了 <%= relname %> 的 <span class="post-highlight">問題</span>。</p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!-- <button type="button" class="btn btn-primary">觀看</button> -->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else if(category == "scrapbook"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> 在剪貼簿上新增了一篇貼文。</p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<!-- <button type="button" class="btn btn-primary">評論</button> -->
+			<div class="post-main">
+				<%= message %>
+			</div>
+		<% } else if(category == "course"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> <%= message %></p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+		<% } else if(category == "practice"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> <%= message %></p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+		<% } else if(category == "watch"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> 在 YouTube 上觀看了一段影片。</p>
+				<p class="post-time"><%= timeago %></p>
+				<p>連結：<a href="<%= url %>" target="_blank"><%= title %></a></p>
+			</div>
+		<% } else if(category == "!emotion"){ %>
+			<div class="post-info">
+				<% if(message != "0") { %>
+					<p><strong><%= user.name %></strong> 對你的貼文的表情是 <span class="post-highlight"><%= message %></span>！</p>
+				<% } else { %>
+					<p><strong><%= user.name %></strong> 取消了對你的貼文的表情！</p>
+				<% } %>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+		<% } else if(category == "!badge"){ %>
+			<div class="post-info">
+				<% if(isBadge) { %>
+					<!-- Badge URL exists, generate image -->
+					<p><strong><%= user.name %></strong> 得到了 <span class="post-highlight"><%= message %></span> 獎章！</p>
+				<% } else { %>
+					<!-- Level -->
+					<p><strong><%= user.name %></strong> 是 <span class="post-highlight"><%= message %></span> 等級！</p>
+				<% } %>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+			<% if(isBadge){ %>
+				<div class="post-main">
+					<img class="post-badge" src="<%= badgeUrl %>" />
+				</div>
+			<% } %>
+		<% } else if(category == "!follow"){ %>
+			<div class="post-info">
+				<p><strong><%= user.name %></strong> 正在<span class="post-highlight">關注</span>你。</p>
+				<p class="post-time"><%= timeago %></p>
+			</div>
+		<% } else { %>
+			<div class="post-main">
+				<p class="bg-danger">不支援的貼文類型，請回報！（category = <%= category %>）</p>
+			</div>
+		<% } %>
+		<% if(image != ""){ %>
+		<div class="post-image">
+			<a class="image-popup" href="<%= image %>">
+				<img src="<%= imageMedium %>" />
+			</a>
+		</div>
+		<% } %>
+	</div>
+</div>

@@ -1,0 +1,5 @@
+@font-face {
+	font-family: LMCustomFont;
+	unicode-range: U+00-024F;
+	src: local('Roboto Regular'), local('Roboto-Regular'), url(http://themes.googleusercontent.com/static/fonts/roboto/v11/2UX7WLTfW3W8TclTUvlFyQ.woff) format('woff');
+}

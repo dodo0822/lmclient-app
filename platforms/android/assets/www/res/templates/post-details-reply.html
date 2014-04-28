@@ -1,0 +1,22 @@
+<div class="post transition-all" data-related="<%= (related == "") ? id : related %>" data-id="<%= id %>" data-category="<%= category %>">
+	<div class="post-content transition-all">
+		<div class="post-avatar">
+			<img src="<%= user.avatar %>" />
+		</div>
+		<div class="post-info">
+			<p><strong><%= user.name %></strong></p>
+			<p class="post-time"><%= timeago %></p>
+		</div>
+		<!-- <button type="button" class="btn btn-primary">觀看</button> -->
+		<div class="post-main">
+			<%= message %>
+		</div>
+		<% if(image != ""){ %>
+		<div class="post-image">
+			<a class="image-popup" href="<%= image %>">
+				<img src="<%= imageMedium %>" />
+			</a>
+		</div>
+		<% } %>
+	</div>
+</div>
