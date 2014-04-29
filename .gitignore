@@ -1,3 +1,4 @@
 .DS_Store
 platforms/android/ant.properties
 platforms/android/local.properties
+platforms/android/CordovaLib/local.properties
