@@ -1,5 +1,6 @@
-define(['lm', 'jquery', 'shadowbox', 'magnific-popup', 'bootstrap-growl', 'bootstrap', 'lm.userdata'], function(LM, $){
+define(['lm', 'jquery', 'shadowbox', 'magnific-popup', 'bootstrap-growl', 'bootstrap', 'lm.userdata', 'history'], function(LM, $){
 	LM.ui = {
+		historyBack: false,
 
 		modal: function(target, modal, options){
 			if(options === undefined) options = {};
@@ -9,7 +10,14 @@ define(['lm', 'jquery', 'shadowbox', 'magnific-popup', 'bootstrap-growl', 'boots
 				},
 				removalDelay: 300,
 				mainClass: 'mfp-zoom-in',
-				modal: modal
+				modal: modal,
+				callbacks: {
+					close: function(){
+						LM.util.log('lmUi', 'modal::close');
+						if(!LM.ui.historyBack) History.back();
+						else LM.ui.historyBack = false;
+					}
+				}
 			};
 			config = $.extend(config, options);
 			$.magnificPopup.open(config);

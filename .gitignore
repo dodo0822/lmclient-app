@@ -2,3 +2,5 @@
 platforms/android/ant.properties
 platforms/android/local.properties
 platforms/android/CordovaLib/local.properties
+platforms/android/ant-build
+platforms/android/CordovaLib/ant-build

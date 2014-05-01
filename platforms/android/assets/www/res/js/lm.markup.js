@@ -23,7 +23,7 @@ require([
 					return "<h"+cnt+">" + p2 + "</h"+cnt+">";
 				});
 
-				src = src.replace(/([^>])\n/g, '$1<br />\n');
+				src = src.replace(/([^>])\n/g, '$1<br/>\n');
 				src = src.replace(/--\s*(.+?)\s*--/g, "<del>$1</del>");
 				src = src.replace(/__\s*(.+?)\s*__/g, "<u>$1</u>");
 				$obj.html(src);

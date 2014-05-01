@@ -44,7 +44,6 @@ define([
 		saveSuccessCB: function(resp){
 			LM.util.log('lmUserdata', 'saveSuccess');
 			console.log(resp);
-			LM.ui.info('設定儲存成功！請重新整理以獲得效果。');
 		},
 
 		showSettings: function(){
@@ -53,6 +52,7 @@ define([
 			LM.ui.modal($settingsDialog, false);
 			$("#settings-form").submit(function(){
 				LM.userdata.set('font', $('#settings-font').val());
+				LM.ui.info('設定儲存成功！請重新整理以獲得效果。');
 				LM.ui.hideModal();
 				return false;
 			})

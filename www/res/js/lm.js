@@ -25,7 +25,7 @@ define(['jquery', 'jquery.cookie', 'jquery.timeago'], function($){
 	jQuery.timeago.settings.strings = {
 		prefixAgo: null,
 		prefixFromNow: "從現在開始",
-		suffixAgo: "之前",
+		suffixAgo: "前",
 		suffixFromNow: null,
 		seconds: "不到 1 分鐘",
 		minute: "大約 1 分鐘",
@@ -48,7 +48,7 @@ define(['jquery', 'jquery.cookie', 'jquery.timeago'], function($){
 		PROXY_URL: "http://ggt.tw/learnmode/proxy/",
 		
 		EMOTIONS: [
-			"","熱愛","喜歡","無評論","討厭","憤怒"
+			"(清除表情)","熱愛","喜歡","無評論","討厭","憤怒"
 		],
 		
 		util: {
@@ -67,7 +67,7 @@ define(['jquery', 'jquery.cookie', 'jquery.timeago'], function($){
 			},
 			
 			getStrongName: function(a, b){
-				if(a.get('name') == b.get('name')) return '他自己';
+				if(a.get('id') == b.get('id')) return '他自己';
 				else return ('<strong>' + b.get('name') + '</strong>');
 			},
 			
