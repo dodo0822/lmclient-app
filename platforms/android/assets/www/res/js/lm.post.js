@@ -14,15 +14,23 @@ define([
 'lm.models',
 'lm.badges',
 'lm.markup',
-'magnific-popup'
+'magnific-popup',
+'history'
 ], function(LM, $, _, tplPostShare, tplPostDetails, tplPostDetailsReply, tplReplyForm, tplBasicDialog){
 	LM.post = {
 		
 		currentPostId: "",
+		currentPostCategory: "",
+		currentQuestionSubject: "",
 		oldestReplyId: undefined,
+		newestReplyId: undefined,
 		$postDialog: undefined,
 		$postArea: undefined,
 		$replyArea: undefined,
+
+		initialize: function(){
+			setInterval("require(['lm', 'lm.post'], function(LM){LM.post.checkTrack();});", 30000);
+		},
 		
 		loadPost: function(postId){
 			$postDialog = $(tplBasicDialog);
@@ -34,11 +42,16 @@ define([
 				callbacks: {
 					close: function(){
 						LM.post.currentPostId = "";
+						LM.post.currentPostCategory = "";
+						LM.post.currentQuestionSubject = "";
+						if(LM.ui.historyBack) LM.ui.historyBack = false;
+						else History.back();
 					}
 				}
 			});
 			LM.post.currentPostId = postId;
 			LM.http.createLMRequest('read', {id: postId}, LM.post.loadPostCB);
+			LM.post.newestReplyId = undefined;
 			LM.post.loadReply(postId);
 		},
 		
@@ -62,6 +75,16 @@ define([
 			//add lightbox
 			LM.ui.registerImagePopups();
 			LM.markup.render($('.post-main'));
+			
+			$trackButton = $(".track-button");
+			var track = LM.userdata.get('track');
+			if(track == "") track = {};
+			if(track[LM.post.currentPostId] !== undefined){
+				LM.util.log('lmPost', 'set button to pushed');
+				console.log($trackButton);
+				$trackButton.html("已追蹤").addClass('active');
+			}
+			
 			$("#reply-form").submit(function(){
 				LM.post.doPostReply();
 				return false;
@@ -69,6 +92,7 @@ define([
 		},
 		
 		loadReplyCB: function(resp){
+			if(LM.post.newestReplyId === undefined) LM.post.newestReplyId = resp.info.newest;
 			var layout = "";
 			var list = new LM.models.PostList();
 			_.each(resp.list, function(post){
@@ -110,6 +134,22 @@ define([
 				//add lightbox
 				LM.ui.registerImagePopups();
 				LM.markup.render($('.post-main'));
+				$(".post-content").children("button").unbind('click').click(LM.post.doToggleTrack);
+			});
+		},
+
+		checkTrack: function(){
+			var track = LM.userdata.get('track');
+			if(track === "") track = {};
+			$.each(track, function(id, newest){
+				LM.util.log('lmTrack', 'checkTrack(' + id + ',' + newest + ')');
+				LM.http.createLMRequest('list', {related: id, sort: 'date', count: 1}, function(resp){
+					if(resp.info.newest !== newest){
+						LM.util.log('lmTrack', 'new!! ' + resp.info.newest);
+						track[id] = resp.info.newest;
+						LM.userdata.set('track', track);
+					}
+				});
 			});
 		},
 		
@@ -124,6 +164,21 @@ define([
 				LM.ui.hideModal();
 				return false;
 			});
+		},
+		
+		doToggleTrack: function(){
+			LM.util.log('lmPost', 'doToggleTrack --> ' + LM.post.currentPostId + ',' + LM.post.newestReplyId);
+			var track = LM.userdata.get('track');
+			if(track === ""){
+				track = {};
+			}
+			var on = false;
+			if(track[LM.post.currentPostId] === undefined) on = true;
+			if(on) track[LM.post.currentPostId] = LM.post.newestReplyId;
+			else delete track[LM.post.currentPostId];
+			LM.userdata.set('track', track);
+			LM.ui.info('成功' + (on?'':'解除') + '追蹤貼文！');
+			$(".track-button").html(on?"已追蹤":"追蹤");
 		},
 		
 		doPostShare: function(){
@@ -144,19 +199,33 @@ define([
 		doPostReply: function(){
 			var formData = new FormData();
 			formData.append("message", $("#reply-content").val());
-			formData.append("subject", "Architecture");
-			formData.append("category", "comment");
+			if(LM.post.currentPostCategory === "question") formData.append("subject", LM.post.currentQuestionSubject);
+			else formData.append("subject", "Architecture");
+			
+			if(LM.post.currentPostCategory === "question") formData.append("category", "answer");
+			else formData.append("category", "comment");
 			formData.append("device", LM.util.getMac());
 			formData.append("application", "com.htc.learnmode");
 			formData.append("related", LM.post.currentPostId);
 			if(document.getElementById("reply-file").files && document.getElementById("reply-file").files[0]) formData.append("image", document.getElementById("reply-file").files[0]);
-			LM.http.createProxyRequest("postComment", formData, function(resp){
-				LM.util.log('lmPost', 'doPostReply::successCB');
-				LM.ui.info("回應成功！");
-				LM.post.loadReply(LM.post.currentPostId);
-				$("#reply-form-collapse").collapse('hide');
-				$("#reply-content").val('');
-			});
+			
+			if(LM.post.currentPostCategory === "question"){
+				LM.http.createProxyRequest("postAnswer", formData, function(resp){
+					LM.util.log('lmPost', 'doPostReply::answerSuccessCB');
+					LM.ui.info("回應成功！");
+					LM.post.loadReply(LM.post.currentPostId);
+					$("#reply-form-collapse").collapse('hide');
+					$("#reply-content").val('');
+				});
+			} else {
+				LM.http.createProxyRequest("postComment", formData, function(resp){
+					LM.util.log('lmPost', 'doPostReply::successCB');
+					LM.ui.info("回應成功！");
+					LM.post.loadReply(LM.post.currentPostId);
+					$("#reply-form-collapse").collapse('hide');
+					$("#reply-content").val('');
+				});
+			}
 		}
 	
 	};

@@ -11,6 +11,10 @@ body {
 	font-size: 1.5em;
 }
 
+.bootstrap-growl-top-right {
+	z-index: 99999 !important;
+}
+
 .navbar-brand {
 	color: #FFF !important;
 }
@@ -72,7 +76,9 @@ label {
 	color: inherit;
 	border-left: 3px #FFF solid;
 	clear: both;
-	overflow: auto;
+	/*overflow: auto;*/
+	word-wrap:break-word;
+	overflow:hidden;
 }
 
 .post-content:hover {
@@ -101,7 +107,7 @@ label {
 
 .post-info .post-time {
 	font-size: .95em;
-	font-family: Consolas, Monaco, serif;
+	font-family: Consolas, Monaco,"文泉驛等寬微米黑", monospace;
 }
 
 .post button {

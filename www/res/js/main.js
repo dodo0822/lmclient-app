@@ -13,6 +13,7 @@ require({
 		underscore: '../lib/underscore/underscore-min',
 		prefixfree: '../lib/prefixfree/prefixfree.min',
 		shadowbox: '../lib/shadowbox/shadowbox',
+		history: '../lib/history/native.history',
 		tpl: '../templates'
 	},
 	shim: {

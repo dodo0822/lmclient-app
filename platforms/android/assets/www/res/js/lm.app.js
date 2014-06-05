@@ -12,7 +12,9 @@ define([
 'lm.about',
 'lm.post',
 'lm.markup',
-'magnific-popup'
+'history',
+'magnific-popup',
+'shadowbox'
 ],function(LM, $, _, tplHomepagePost){
 	LM.app = {
 		oldestPostId: undefined,
@@ -24,8 +26,37 @@ define([
 				LM.app.registerListeners();
 				LM.app.loadProfile();
 				LM.app.loadHome();
-				LM.userdata.initialize(LM.ui.setFont);
+				LM.userdata.initialize(LM.app.userdataInitializeCB);
+				LM.post.initialize();
+				History.options.initialTitle = "LMClientX";
+				History.Adapter.bind(window, 'statechange', function(){
+					var state = History.getState();
+					console.log(state);
+					if(state.data.state == "home"){
+						Shadowbox.close();
+						if($(".mfp-bg").length > 0){
+							LM.ui.historyBack = true;
+							LM.ui.hideModal();
+						}
+					} else if(state.data.state == "settings"){
+						LM.userdata.showSettings();
+					} else if(state.data.state == "about"){
+						LM.about.showAbout();
+					} else if(state.data.state == "logout"){
+						LM.login.showLogout();
+					} else if(state.data.state == "post"){
+						LM.post.showPostDialog();
+					} else if(state.data.state == "readpost"){
+						LM.post.loadPost(state.data.id);
+					}
+				});
+				History.replaceState({state: "home"}, "LMClientX", "?");
 			}
+		},
+
+		userdataInitializeCB: function(){
+			LM.ui.setFont();
+			LM.post.checkTrack();
 		},
 
 		loadProfile: function(){
@@ -127,7 +158,7 @@ define([
 					var c = $(this).data('category');
 					if(c == "share" || c == "question" || c == "answer" || c == "comment" || c == "scrapbook" || c == "!emotion"){
 						LM.util.log('lmHome', $(this).data('related'));
-						LM.post.loadPost($(this).data('related'));
+						History.pushState({state: 'readpost', id: $(this).data('related')}, "檢視貼文｜LMClientX", "?readpost|" + $(this).data('related'));
 					}
 				}
 			});
@@ -139,10 +170,22 @@ define([
 		},
 		
 		registerListeners: function(){
-			$("#logout-link").click(function(){LM.login.showLogout(); return false;});
-			$("#about-link").click(function(){LM.about.showAbout(); return false;});
-			$("#settings-link").click(function(){LM.userdata.showSettings(); return false;});
-			$("#share-link").click(function(){LM.post.showPostDialog(); return false;});
+			$("#logout-link").click(function(){
+				History.pushState({state: 'logout'}, "登出｜LMClientX", "?logout");
+				return false;
+			});
+			$("#about-link").click(function(){
+				History.pushState({state: 'about'}, "關於｜LMClientX", "?about");
+				return false;
+			});
+			$("#settings-link").click(function(){
+				History.pushState({state: 'settings'}, "設定｜LMClientX", "?settings");
+				return false;
+			});
+			$("#share-link").click(function(){
+				History.pushState({state: 'post'}, "分享貼文｜LMClientX", "?post");
+				return false;
+			});
 		}
 	};
 });
